@@ -16,7 +16,7 @@ public class BookService {
 
     private final BookRepository bookRepository;
 
-    public void createBook(BookCreateRequestDto requestDto) {
+    public Book createBook(BookCreateRequestDto requestDto) {
         //ISBN 중복 체크
         Optional<Book> byIsbn = bookRepository.findByIsbn(requestDto.getIsbn());
         if (byIsbn.isPresent()){ //Book 객체가 존재한지?
@@ -33,7 +33,7 @@ public class BookService {
                 .status(BookStatus.AVAILABLE)
                 .build();
 
-        bookRepository.save(book);
+        return bookRepository.save(book);
 
     }
 }

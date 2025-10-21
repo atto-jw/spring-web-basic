@@ -1,10 +1,14 @@
 package com.codeit.springwebbasic.book.controller;
 
 import com.codeit.springwebbasic.book.dto.request.BookCreateRequestDto;
+import com.codeit.springwebbasic.book.dto.response.BookResponseDto;
+import com.codeit.springwebbasic.book.entity.Book;
 import com.codeit.springwebbasic.book.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,9 +27,10 @@ public class BookController {
         }
         이 모양과 똑같이 클래스 (DTO) 생성해서 보내주자.
      */
-    public void createBook(@Valid @RequestBody BookCreateRequestDto requestDto) { // Valid -> 검증이 필요함!
-        bookService.createBook(requestDto);
-
+    @RequestMapping(value = "/api/books", method = RequestMethod.POST)
+    public BookResponseDto createBook(@Valid @RequestBody BookCreateRequestDto requestDto) { // Valid -> 검증이 필요함!
+        Book book = bookService.createBook(requestDto);
+        return BookResponseDto.from(book);
     }
 
 }
