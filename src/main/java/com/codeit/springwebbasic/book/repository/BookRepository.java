@@ -1,6 +1,7 @@
 package com.codeit.springwebbasic.book.repository;
 
 import com.codeit.springwebbasic.book.entity.Book;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
+@Repository
 public class BookRepository {
 
     // 웹 에플리케이션은 동시에 여러 요청이 한꺼번에 들어올 수 있기 때문에
@@ -47,8 +49,13 @@ public class BookRepository {
         return store.values().stream()
                 .filter(book -> book.getTitle().contains(title))
                 .collect(Collectors.toList());
+    }
 
-
+    // ISBN으로 책 검색
+    public Optional<Book> findByIsbn(String isbn) {
+        return store.values().stream()
+                .filter(book -> book.getIsbn().equals(isbn))
+                .findFirst();
     }
 
 }
